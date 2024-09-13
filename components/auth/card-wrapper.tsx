@@ -21,7 +21,7 @@ const CardWrapper = ({
   showSocial
 }: CardWrapperProps) => {
   return (
-    <div className="mx-auto grid w-[400px] gap-6">
+    <div className="mx-auto grid max-w-[400px] gap-6">
       <Header
         headerTitle={headerTitle}
         headerLabel={headerLabel}
