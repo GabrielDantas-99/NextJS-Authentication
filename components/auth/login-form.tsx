@@ -39,8 +39,8 @@ export function LoginForm() {
     setSuccess("");
     startTransition(() => {
       login(values).then((data: any) => {
-        setError(data.error)
-        setSuccess(data.success)
+        setError(data?.error)
+        setSuccess(data?.success)
       })
     })
     // axios.post("baseUri/auth/login", values)
