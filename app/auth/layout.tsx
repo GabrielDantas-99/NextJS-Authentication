@@ -6,8 +6,8 @@ export default function AuthLayout({
   children
 }: { children: React.ReactNode }) {
   return (
-    <main className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
-      <div className="grid place-items-center py-12">
+    <main className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px] h-screen">
+      <div className="grid place-items-center py-12 h-full">
         {children}
       </div>
       <div className="hidden bg-muted lg:block">
