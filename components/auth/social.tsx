@@ -1,10 +1,17 @@
 "use client"
 
 import { FcGoogle } from "react-icons/fc";
-import { FaApple } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
+import { signIn } from "next-auth/react";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 const Social = () => {
+  const onClick = (provider: "google" | "github") => {
+    signIn(provider, {
+      callbackUrl: DEFAULT_LOGIN_REDIRECT
+    });
+  }
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -17,7 +24,7 @@ const Social = () => {
           size="lg"
           className="w-full"
           variant="outline"
-          onClick={() => { }}
+          onClick={() => onClick("google")}
         >
           <FcGoogle className="w-5 h-5 " />
         </Button>
@@ -25,9 +32,9 @@ const Social = () => {
           size="lg"
           className="w-full"
           variant="outline"
-          onClick={() => { }}
+          onClick={() => onClick("github")}
         >
-          <FaApple className="w-5 h-5 " />
+          <FaGithub className="w-5 h-5 " />
         </Button>
       </div>
     </div>
