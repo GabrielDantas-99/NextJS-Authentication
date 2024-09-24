@@ -1,132 +1,86 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Fitness Management System
+This project is a complete fitness management platform built using Next.js 14 with NextAuth for authentication and authorization, ShadcnUI for the component library, and PrismaORM for managing the database.
 
-## Getting Started
+The platform provides different roles (Admin, Personal Trainer, User) with various functionalities tailored to their needs.
 
-First, run the development server:
+## Features
+### Authentication & Authorization
+  - Role-based Access Control: The system supports three roles: Admin, Personal Trainer (Personal), and User. Each role has access to different features and functionalities.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Admin Features
+  - Financial Dashboard: Access to the gym's financial dashboard, including the ability to manage accounts.
+  - Personal Trainer & Student Management: Admins can manage both personal trainers and students.
+  - Discount & Plan Management: Create, update, and delete discounts and membership plans.
+  - Modality Management: Manage different gym modalities (e.g., Weightlifting, Dance, Functional Training).
+  - Schedule Management: Handle gym schedules and holiday closures.
+  - News Management: Admins can post news and updates to the users on the platform.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Personal Trainer Features
+  - Training Management: Manage workout routines for assigned students.
+  - Schedule Management: Personal trainers can manage their own working hours (availability at the gym).
+  - Direct Messaging: Chat functionality to communicate directly with their assigned students.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### User Features
+  - Workout Tracking: Users can track their workout routines.
+  - Subscription Management: Track payments, plans, and membership details.
+  - Personal Information Management: Update personal details.
+  - Modality Management: Users can select and manage their participation in various modalities.
+  - Personal Trainer Communication: Users can chat with their assigned personal trainer.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Tech Stack
+  - Frontend: Next.js 14, ShadcnUI
+  - Backend: Next.js API Routes
+  - Authentication: NextAuth (with role-based access control)
+  - Database: PrismaORM (PostgreSQL)
+  - Styling: TailwindCSS
 
-## Learn More
+### Getting Started
+#### Prerequisites
+  - Node.js (version 14+)
+  - PostgreSQL installed and running
 
-To learn more about Next.js, take a look at the following resources:
+#### Installation
+  1 - Clone the repository:
+```git clone https://github.com/yourusername/fitness-management-system.git```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  2 - Navigate into the project directory:
+```cd fitness-management-system```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+  3 - Install the dependencies:
+```npm install```
 
-## Deploy on Vercel
+  4 - Set up your environment variables:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-## Prisma:
-
-### Step 1:
-
-```
-  npm i -D prisma
-```
-
-### Step 2:
-
-```
-  npm i @prisma/client
-```
-
-### Step 3: Create db.ts
-
-### Step 4: Add '.env' to .gitignore
-
-### Step 5:
+  Create a .env file in the root directory and configure the following:
 
 ```
-  npx prisma init
+DATABASE_URL=postgresql://user:password@localhost:5432/fitness_management
+NEXTAUTH_SECRET=your_secret_key
+```
+  5 - Run the Prisma migrations to set up the database schema:
+```npx prisma migrate dev```
+
+  6 - Run the development server:
+```npm run dev```
+
+  7 - Access the application at http://localhost:3000.
+
+Project Structure
+```
+├── app                    # Next.js app directory (replaces pages)
+├── prisma                 # Prisma ORM schema and migration files
+├── components             # Reusable UI components
+├── styles                 # Global and component-specific styles
+├── public                 # Public assets (images, fonts, etc.)
+├── hooks                  # Custom React hooks
+├── lib                    # Utility functions and services
+├── data                   # Static or mock data used in the application
+├── actions                # State management logic and API actions
+└── utils                  # Helper functions and utilities
 ```
 
-### Step 6: Connect to neondb, put the generated content in schema.prisma and .env inside the files of the same name
+## Contributing
+Feel free to fork the repository and submit pull requests. Any contributions are welcome to enhance the system.
 
-### Step 7: Create a new model and the generator client inside of prisma.schema:
-
-```
-generator client {
-  provider = "prisma-client-js"
-}
-
-model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String? @db.Text
-  access_token       String? @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.Text
-  session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-  @@map("accounts")
-}
-
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  password      String?
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  accounts      Account[]
-
-  @@map("users")
-}
-```
-
-#### and run:
-
-```
-npx prisma generate
-```
-
-### Step 8: Push the database to remote:
-
-```
-npx prisma db push
-```
-
-## NexthAuth:
-
-### Step 1:
-
-```
-npm i @auth/prisma-adapter
-```
-
-### Step 2: Add bcrypt:
-
-```
-npm i bcrypt
-```
-
-```
-npm i -D @types/bcrypt
-```
+## License
+This project is licensed under the MIT License. See the LICENSE file for more details.
