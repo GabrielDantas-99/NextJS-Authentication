@@ -1,12 +1,12 @@
 import { CheckCircledIcon } from "@radix-ui/react-icons";
 
-interface FormErrorProps {
+interface FormSuccessProps {
   message?: string;
 }
 
-const FormErrorProps = ({
+const FormSuccess = ({
   message,
-}: FormErrorProps) => {
+}: FormSuccessProps) => {
   if (!message) return null;
   return (
     <div
@@ -18,4 +18,4 @@ const FormErrorProps = ({
   );
 }
 
-export default FormErrorProps;
+export default FormSuccess;
