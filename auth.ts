@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import authConfig from "@/auth.config";
 import { getUserById } from "./data/user";
 import { UserRole } from "@prisma/client";
+import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation";
 
 export const {
   handlers: { GET, POST },
@@ -25,22 +26,31 @@ export const {
     },
   },
   callbacks: {
-    // async signIn({ user, account }) {
-    //   console.log({
-    //     user,
-    //     account,
-    //   });
-    //   // Allow OAuth without email verification
-    //   if (account?.provider !== "credentials") return true;
+    async signIn({ user, account }) {
+      // Allow OAuth without email verification
+      if (account?.provider !== "credentials") return true;
 
-    //   const existingUser = await getUserById(user?.id);
+      const existingUser = await getUserById(user?.id);
 
-    //   // Prevent sign in whithout email verification
-    //   if (!existingUser?.emailVerified) return false;
+      // Prevent sign in whithout email verification
+      if (!existingUser?.emailVerified) return false;
 
-    //   // Add 2FA check
-    //   return true;
-    // },
+      // Add 2FA check
+      if (existingUser.isTwoFactorEnabled) {
+        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
+          existingUser.id
+        );
+
+        if (!twoFactorConfirmation) return false;
+
+        // Delete two factor confirmation for next sign in
+        await db.twoFactorConfirmation.delete({
+          where: { id: twoFactorConfirmation.id },
+        });
+      }
+
+      return true;
+    },
     async session({ token, session }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
