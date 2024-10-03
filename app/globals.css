@@ -87,3 +87,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .active-link {
+    @apply bg-primary text-white font-medium;
+  }
+}

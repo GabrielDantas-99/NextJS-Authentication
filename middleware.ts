@@ -1,11 +1,13 @@
-import authConfig from "./auth.config";
+import authConfig from "@/auth.config";
+import { NextResponse } from "next/server";
 import NextAuth from "next-auth";
 import {
   apiAuthPrefix,
   authRoutes,
   DEFAULT_LOGIN_REDIRECT,
   publicRoutes,
-} from "./routes";
+} from "@/routes";
+import { getUrl } from "./lib/get-url";
 
 const { auth } = NextAuth(authConfig);
 
@@ -23,13 +25,15 @@ export default auth((req) => {
 
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      return NextResponse.redirect(
+        new URL(getUrl(DEFAULT_LOGIN_REDIRECT), nextUrl)
+      );
     }
     return undefined;
   }
-
+  console.log(!isLoggedIn && !isPublicRoute);
   if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL("/auth/login", nextUrl));
+    return NextResponse.redirect(new URL(getUrl("/auth/login"), nextUrl));
   }
 
   return undefined;

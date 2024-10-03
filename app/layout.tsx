@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(poppins.className + ' dark')}>
+      <body className={cn(poppins.className + ' ')}>
         {children}
       </body>
     </html>
